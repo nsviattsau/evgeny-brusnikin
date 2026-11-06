@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Модерация воспоминаний</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=PT+Serif:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="admin">
+    <div class="admin__head">
+      <h1>Модерация</h1>
+      <div>
+        <a href="./">← На сайт</a>
+        <button class="btn btn--ghost btn--small" id="logout" type="button" hidden>Выйти</button>
+      </div>
+    </div>
+
+    <p class="form__status form__status--error" id="not-configured" hidden>
+      Supabase не настроен. Заполните <code>js/config.js</code> (см. README).
+    </p>
+
+    <form class="form admin__login" id="login-form" hidden>
+      <div class="form__row">
+        <label for="l-email">Email</label>
+        <input id="l-email" type="email" autocomplete="username" required>
+      </div>
+      <div class="form__row">
+        <label for="l-password">Пароль</label>
+        <input id="l-password" type="password" autocomplete="current-password" required>
+      </div>
+      <p class="form__status" id="login-status" role="status"></p>
+      <button class="btn" type="submit">Войти</button>
+    </form>
+
+    <section id="panel" hidden>
+      <div class="admin__tabs" role="group" aria-label="Фильтр">
+        <button class="btn btn--ghost btn--small" data-status="pending" aria-pressed="true">На проверке</button>
+        <button class="btn btn--ghost btn--small" data-status="approved" aria-pressed="false">Опубликованные</button>
+        <button class="btn btn--ghost btn--small" data-status="rejected" aria-pressed="false">Отклонённые</button>
+      </div>
+      <p class="form__status" id="panel-status" role="status"></p>
+      <div class="memories__list" id="admin-list"></div>
+    </section>
+  </main>
+
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>

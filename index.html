@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Светлая память</title>
+  <meta name="description" content="Страница памяти. Поделитесь своими воспоминаниями.">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M16 3c3 5 5 8 5 12a5 5 0 0 1-10 0c0-4 2-7 5-12z' fill='%23b08a4e'/><rect x='13' y='20' width='6' height='10' rx='1' fill='%237a6a55'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="demo-banner" id="demo-banner" hidden>
+    Демо-режим: показаны примеры воспоминаний, форма ничего не сохраняет.
+  </div>
+
+  <header class="hero">
+    <div class="hero__inner">
+      <figure class="hero__portrait">
+        <img id="portrait" src="" alt="">
+      </figure>
+      <p class="hero__kicker">Светлая память</p>
+      <h1 class="hero__name" id="full-name"></h1>
+      <p class="hero__dates" id="life-dates"></p>
+      <p class="hero__epigraph" id="epigraph"></p>
+      <nav class="hero__nav" aria-label="Разделы">
+        <a href="#biography">О нём</a>
+        <a href="#memories">Воспоминания</a>
+        <a href="#share" class="btn btn--ghost">Поделиться воспоминанием</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section ceremony" id="ceremony" hidden>
+      <div class="ornament" aria-hidden="true"></div>
+      <h2 class="section__title" id="ceremony-title"></h2>
+      <div class="ceremony__card">
+        <p class="ceremony__when" id="ceremony-when"></p>
+        <p class="ceremony__place" id="ceremony-place"></p>
+        <p class="ceremony__address" id="ceremony-address"></p>
+        <p class="ceremony__note" id="ceremony-note"></p>
+        <a class="btn btn--ghost" id="ceremony-map" target="_blank" rel="noopener" hidden>Открыть на карте</a>
+      </div>
+    </section>
+
+    <section class="section biography" id="biography">
+      <div class="ornament" aria-hidden="true"></div>
+      <h2 class="section__title">Жизненный путь</h2>
+      <div class="biography__text" id="biography-text"></div>
+    </section>
+
+    <section class="section memories" id="memories">
+      <div class="ornament" aria-hidden="true"></div>
+      <h2 class="section__title">Они вспоминают</h2>
+      <p class="section__lead" id="memories-count"></p>
+      <div class="memories__list" id="memories-list" aria-live="polite">
+        <p class="muted">Загрузка…</p>
+      </div>
+      <button class="btn btn--ghost memories__more" id="memories-more" type="button" hidden>Показать все воспоминания</button>
+    </section>
+
+    <section class="section share" id="share">
+      <div class="ornament" aria-hidden="true"></div>
+      <h2 class="section__title">Поделиться воспоминанием</h2>
+      <p class="section__lead">Расскажите историю, напишите несколько слов или добавьте фотографию. Каждое сообщение проверяется администратором перед публикацией.</p>
+
+      <form class="form" id="memory-form" novalidate>
+        <div class="form__row">
+          <label for="f-name">Ваше имя <span class="muted">(необязательно)</span></label>
+          <input id="f-name" name="name" type="text" maxlength="100" autocomplete="name" placeholder="Например: Анна, внучка">
+          <label class="check">
+            <input id="f-anon" name="anonymous" type="checkbox">
+            <span>Опубликовать анонимно</span>
+          </label>
+        </div>
+
+        <div class="form__row">
+          <label for="f-email">Email <span class="muted">(необязательно)</span></label>
+          <input id="f-email" name="email" type="email" maxlength="200" autocomplete="email" placeholder="name@example.com">
+          <small class="muted">Не публикуется. Нужен только для того, чтобы семья могла вам ответить.</small>
+        </div>
+
+        <div class="form__row">
+          <label for="f-message">Ваше воспоминание <span class="req">*</span></label>
+          <textarea id="f-message" name="message" rows="6" maxlength="5000" required></textarea>
+          <small class="muted"><span id="f-count">0</span> / 5000</small>
+        </div>
+
+        <div class="form__row">
+          <label for="f-photo">Фотография <span class="muted">(необязательно)</span></label>
+          <input id="f-photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp">
+          <small class="muted">JPG, PNG или WebP, до 5 МБ.</small>
+          <img class="form__preview" id="f-preview" alt="Предпросмотр фотографии" hidden>
+        </div>
+
+        <!-- Honeypot field for bots: real visitors never see or fill it. -->
+        <div class="hp" aria-hidden="true">
+          <label for="f-website">Website</label>
+          <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+
+        <label class="check form__row">
+          <input id="f-consent" name="consent" type="checkbox" required>
+          <span>Я согласен(-на), чтобы моё сообщение было передано семье и опубликовано на этой странице. <span class="req">*</span></span>
+        </label>
+
+        <p class="form__status" id="form-status" role="status"></p>
+        <button class="btn" type="submit" id="f-submit">Отправить</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="ornament" aria-hidden="true"></div>
+    <p id="footer-text"></p>
+    <p class="footer__years" id="footer-years"></p>
+  </footer>
+
+  <dialog class="lightbox" id="lightbox">
+    <button class="lightbox__close" type="button" aria-label="Закрыть">×</button>
+    <img id="lightbox-img" alt="">
+  </dialog>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
